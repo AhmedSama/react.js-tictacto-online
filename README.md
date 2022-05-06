@@ -33,8 +33,11 @@ Go to the project directory
   cd react.js-tictacto-online
 ```
 
-go to the server directory and run
-
+go to the server directory 
+```bash
+  cd server
+```
+and run
 ```bash
   npm install
 ```
