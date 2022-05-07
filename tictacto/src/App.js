@@ -21,6 +21,7 @@ function App() {
   const [myTurn,setMyTurn] = useState(false)
   const [xo,setXO] = useState("")
 
+
   useEffect(()=>{
     socket.connect()
     socket.on("joined",data=>{
@@ -31,6 +32,8 @@ function App() {
       }
     })
   },[])
+
+  
 
   return (
     <context.Provider value={socket}>

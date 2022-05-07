@@ -5,7 +5,7 @@ import Cell from '../components/cell.js'
 import Invite from '../components/invite.js'
 import Popup from '../components/popup.js'
 
-export default function Game({name,roomID,myTurn,setMyTurn,xo,setXO}) {
+export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
   const socket = useContext(context)
   const navigate = useNavigate()
   useEffect(()=>{
@@ -108,9 +108,7 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,setXO}) {
       {showInvite &&
         <Invite setShowInvite={setShowInvite} roomID={roomID} />
       }
-      
       <button onClick={()=>{
-        console.log("yes")
         setShowInvite(true)
       }} className='btn mb-10'>Invite</button>
       <div className='grid'>

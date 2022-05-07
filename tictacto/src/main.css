@@ -6,7 +6,47 @@
 :root{
     --border : 1px solid rgb(198, 198, 198);
     --radius : 5px;
-    --main-color : rgb(72, 72, 72);
+    --main-color : rgb(38, 38, 38);
+    --bg-color : white;
+    --x-color : rgb(79, 122, 239);
+    --o-color : rgb(228, 237, 108);
+    --box-shadow-x : none;
+    --box-shadow-o : none;
+    --invite-bg-color : rgb(249, 249, 249);
+    --invite-bg-color-hover : rgb(239, 239, 239);
+    --toggle-color : rgb(38, 38, 38);
+    --toggle-circle-color : white;
+    --input-outline : 7px solid rgb(221, 238, 255);
+    --input-bg-color : rgb(255, 255, 255);
+    --input-bg-color-hover : rgb(255, 255, 255);
+}
+
+[color-scheme="dark"]{
+    --bg-color : rgb(38, 38, 38);
+    --main-color : white;
+    --box-shadow-x : 0 0 30px var(--x-color),0 0 80px var(--x-color);
+    --box-shadow-o : 0 0 30px var(--o-color),0 0 80px var(--o-color);
+    --invite-bg-color : rgb(66, 66, 66);
+    --invite-bg-color-hover : rgb(121, 121, 121);
+    --toggle-color : white;
+    --toggle-circle-color : rgb(38, 38, 38);
+    --input-outline : 7px solid rgba(0, 208, 255, 0.199);
+    --input-bg-color : rgb(67, 67, 67);
+    --input-bg-color-hover : rgb(27, 27, 27);
+}
+
+[color-scheme="light"]{
+    --bg-color : white;
+    --main-color : rgb(38, 38, 38);
+    --box-shadow-x : none;
+    --box-shadow-o : none;
+    --invite-bg-color : rgb(249, 249, 249);
+    --invite-bg-color-hover : rgb(239, 239, 239);
+    --toggle-color : rgb(38, 38, 38);
+    --toggle-circle-color : white;
+    --input-outline : 7px solid rgb(221, 238, 255);
+    --input-bg-color : rgb(255, 255, 255);
+    --input-bg-color-hover : rgb(255, 255, 255);
 }
 
 *{
@@ -20,7 +60,9 @@ a{
     text-decoration: none;
     color: blue;
 }
-
+body{
+    background-color: var(--bg-color);
+}
 /* UNIVERSAL STYLE */
 .container{
     width: 100%;
@@ -30,6 +72,7 @@ a{
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    
 }
 .cap{
     text-transform: capitalize;
@@ -94,6 +137,8 @@ a{
     border-radius: var(--radius);
     display: flex;
     flex-direction: column;
+    background-color: var(--bg-color);
+    color: var(--main-color);
     gap: 20px;
     width: 600px;
 }
@@ -102,10 +147,13 @@ a{
     font-size: 20px;
     border: var(--border);
     border-radius: var(--radius);
+    color: var(--main-color);
+    background-color: var(--input-bg-color);
 }
 .form-input:focus{
     border: none;
-    outline: 7px solid rgb(221, 238, 255);
+    outline: var(--input-outline);
+    background-color: var(--input-bg-color-hover);
 }
 
 
@@ -127,13 +175,15 @@ a{
 
 .cell.x .content{
     border-radius: var(--radius);
-    background-color: rgb(79, 122, 239);
-    animation: cell-graw 0.3s cubic-bezier(0.77, 0.49, 0.22, 1.36) forwards;
+    background-color: var(--x-color);
+    box-shadow: var(--box-shadow-x);
+    animation: cell-graw 0.2s cubic-bezier(0.77, 0.49, 0.22, 1.36) forwards;
 }
 .cell.o .content{
     border-radius: 50%;
-    background-color: rgb(228, 237, 108);
-    animation: cell-graw 0.3s cubic-bezier(0.77, 0.49, 0.22, 1.36) forwards;
+    background-color: var(--o-color);
+    box-shadow: var(--box-shadow-o);
+    animation: cell-graw 0.2s cubic-bezier(0.77, 0.49, 0.22, 1.36) forwards;
 }
 
 @keyframes cell-graw{
@@ -142,8 +192,8 @@ a{
         height: 0px;
     }
     100%{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
 }
 
@@ -165,12 +215,14 @@ a{
 .popup-content{
     padding: 50px 50px;
     border-radius: var(--radius);
+    border: var(--border);
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 500px;
-    background-color: white;
+    background-color: var(--bg-color);
     animation: graw 0.3s cubic-bezier(0.77, 0.49, 0.22, 1.36) forwards;
+    color: var(--main-color);
 }
 
 
@@ -185,7 +237,7 @@ a{
     top: 20%;
     left: 0;
     transform: translate(-50%,-50%);
-    background-color: white;
+    background-color: var(--bg-color);
     border: var(--border);
     border-radius: var(--radius);
     width: 400px;
@@ -205,7 +257,7 @@ a{
     color: rgb(255, 0, 81);
 }
 .invite{
-    background-color: rgb(249, 249, 249);
+    background-color: var(--invite-bg-color);
     padding: 20px;
     font-size: 10px;
     font-weight: 300;
@@ -214,10 +266,11 @@ a{
     border-radius: var(--radius);
     gap: 10px;
     cursor: pointer;
+    color:var(--main-color);
     transition: 0.3s all ease;
 }
 .invite:hover{
-    background-color: rgb(239, 239, 239);
+    background-color: var(--invite-bg-color-hover);
 }
 .invite-icon{
     font-size: 20px;
@@ -233,10 +286,35 @@ a{
 }
 
 
-
-
-
-
+/* TOGGLE BTN */
+.toggle{
+    width: 40px;
+    height: 25px;
+    border-radius: 200px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    background-color: var(--toggle-color);
+    transition: 0.3s all ease;
+}
+.toggle-circle{
+    height: 23px;
+    width: 23px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 0.7px;
+    background-color: var(--toggle-circle-color);
+    transition: 0.1s all ease;
+}
+.toggle-circle.active{
+    left : calc(100% - 23px - 0.7px);
+}
+.toggle-circle:hover{
+    outline: 5px solid rgba(0, 208, 255, 0.199);
+}
 
 /* MEDIA QUERIES */
 
@@ -245,8 +323,8 @@ a{
         width: 350px;
     }
     .form{
-        width: 100%;
-        padding: 20px;
+        /* width: 100%; */
+        /* padding: 20px; */
     }
 }
 
