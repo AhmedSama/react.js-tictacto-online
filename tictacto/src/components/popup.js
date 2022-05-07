@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export default function Popup({winner,setShowPopup}) {
+export default function Popup({winner,setShowPopup,msg}) {
     const hanlde = (event) => {
         if(event.target.classList.contains("popup-container")){
             setShowPopup()
@@ -11,7 +11,7 @@ export default function Popup({winner,setShowPopup}) {
     <div onClick={hanlde} className='popup-container'>
         <div className='popup-content'>
             <h1 className='title center'>
-                the winner is <b>{winner}</b>
+                {msg} <b>{winner}</b>
             </h1>
         </div>
     </div>,

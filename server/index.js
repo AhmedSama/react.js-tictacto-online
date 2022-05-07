@@ -41,7 +41,7 @@ io.on("connection",socket=>{
                 // initiate the joined user data
                 socket.emit("joined",{ok: true,yourTurn:false,xo:"o", ...data})
                 // initiate the created user data and notify the created user that is someone entered the game
-                socket.to(data.roomID).emit("joined",{ok: true,yourTurn:true,xo:"x",other : data})
+                socket.to(data.roomID).emit("joined",{ok: true,yourTurn:true,xo:"x"})
             }
             else{
                 socket.emit("join",{ok:false,error : "room is full join another one or create new one"})
@@ -50,6 +50,9 @@ io.on("connection",socket=>{
         else{
             socket.emit("join",{ok: false, error : "room is not exists, create a new room or check your room ID"})
         }
+    })
+    socket.on("other-data",data=>{
+        socket.to(data.roomID).emit("other-data",data)
     })
 
     // playing events

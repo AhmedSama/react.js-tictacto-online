@@ -5,9 +5,10 @@ import Cell from '../components/cell.js'
 import Invite from '../components/invite.js'
 import Popup from '../components/popup.js'
 
-export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
+export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,setOtherPlayerName}) {
   const socket = useContext(context)
   const navigate = useNavigate()
+  const [popupMsg, setPopupMsg] = useState("the winner is ")
   useEffect(()=>{
     if(name === null || roomID === null){
       navigate("/")
@@ -67,11 +68,13 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
     setGrid(newGrid)
 
     if(checkWin()){
+      setPopupMsg("The winner is ")
       setWinner(x_or_o)
       setShowPopup(true)
       setEndGame(true)
     }
     else if(checkDraw()){
+      setPopupMsg("no one wins it is a ")
       setWinner("draw")
       setShowPopup(true)
       setEndGame(true)
@@ -89,11 +92,13 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
     setGrid(newGrid)
 
     if(checkWin()){
+      setPopupMsg("The winner is ")
       setWinner(xo)
       setShowPopup(true)
       setEndGame(true)
     }
     else if(checkDraw()){
+      setPopupMsg("no one wins it is a ")
       setWinner("draw")
       setShowPopup(true)
       setEndGame(true)
@@ -108,9 +113,15 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
       {showInvite &&
         <Invite setShowInvite={setShowInvite} roomID={roomID} />
       }
-      <button onClick={()=>{
-        setShowInvite(true)
-      }} className='btn mb-10'>Invite</button>
+      {
+        otherPlayerName ? <h2 className='title'>{otherPlayerName}</h2> : 
+          <button onClick={()=>{
+            setShowInvite(true)
+            }} className='btn mb-10'>
+            Invite
+          </button>
+      }
+      
       <div className='grid'>
         {grid.map((item,key)=>{
           return <Cell hanldeClick={()=>hanldeClick(key)} key={key} item={item} />
@@ -118,7 +129,7 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,changeTheme}) {
         
       </div>
       {showPopup &&
-        <Popup setShowPopup={()=>setShowPopup(!showPopup)} winner={winner.toUpperCase()} />
+        <Popup setShowPopup={()=>setShowPopup(!showPopup)} msg={popupMsg} winner={winner.toUpperCase()} />
       }
       
     </>
