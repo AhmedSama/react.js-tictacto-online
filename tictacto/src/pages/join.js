@@ -1,7 +1,6 @@
 import React, { useRef,useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { context } from '../App'
-
 export default function Join({setName,setRoomID}) {
 
     const socket = useContext(context)
@@ -40,7 +39,7 @@ export default function Join({setName,setRoomID}) {
     }, [])
 
   return (
-      <>
+    <>
         <div className='form'>
             <h1 className='title center'>Join A game</h1>
             <input ref={name} className='form-input' placeholder='username...' />
@@ -48,7 +47,7 @@ export default function Join({setName,setRoomID}) {
             <button onClick={handleFormSubmit} className='btn primary upper'>join</button>
         </div>
         <p className='small m-10'> <Link to={"/"}>Create</Link> a new game </p>
-      </>
+    </>
     
   )
 }

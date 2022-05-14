@@ -19,6 +19,7 @@
     --input-outline : 7px solid rgb(221, 238, 255);
     --input-bg-color : rgb(255, 255, 255);
     --input-bg-color-hover : rgb(255, 255, 255);
+    --light-color : rgb(125, 125, 125);
 }
 
 [color-scheme="dark"]{
@@ -33,6 +34,7 @@
     --input-outline : 7px solid rgba(0, 208, 255, 0.199);
     --input-bg-color : rgb(67, 67, 67);
     --input-bg-color-hover : rgb(27, 27, 27);
+    --light-color : rgb(125, 125, 125);
 }
 
 [color-scheme="light"]{
@@ -47,6 +49,7 @@
     --input-outline : 7px solid rgb(221, 238, 255);
     --input-bg-color : rgb(255, 255, 255);
     --input-bg-color-hover : rgb(255, 255, 255);
+    --light-color : rgb(125, 125, 125);
 }
 
 *{
@@ -314,6 +317,41 @@ body{
 }
 .toggle-circle:hover{
     outline: 5px solid rgba(0, 208, 255, 0.199);
+}
+
+/* game details style */
+
+.game-details{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    border: var(--border);
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+.player{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--invite-bg-color);
+    border-radius: var(--radius);
+    padding: 10px;
+}
+.player-name {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--main-color);
+}
+
+.player-score{
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--light-color);
 }
 
 /* MEDIA QUERIES */

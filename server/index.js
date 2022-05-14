@@ -21,6 +21,18 @@ const PORT = process.env.PORT || 3001
 app.post("/create",(req,res) => {
     console.log(req.body)
 })
+
+const roomUsers = {} //roomID : [{name : "name1"} , {name : "name2"}]
+
+
+const updateScore = (name,roomID) => {
+roomUsers[roomID]
+    for(let i = 0; i < roomUsers[roomID].length; i++){
+        if(roomUsers[roomID][i].name === name){
+            roomUsers[roomID][i].score++
+        }
+    }
+}
 // io.of("/").adapter.rooms.has("test") => checks if the room exists or not
 // io.of("/").adapter.rooms.get("test").size => checks how many sockets joined in this room
 io.on("connection",socket=>{
@@ -29,6 +41,8 @@ io.on("connection",socket=>{
         socket.username = data.name
         const roomID = uuidv4()
         socket.join(roomID)
+        roomUsers[`${roomID}`] = new Array()
+        roomUsers[`${roomID}`].push({name : data.name, type : "creator",score : 0})
         socket.emit("create",{ok: true, roomID,name:data.name,yourTurn:false,xo:"x"})
     })
     socket.on("join",data=>{
@@ -36,6 +50,9 @@ io.on("connection",socket=>{
             console.log(io.of("/").adapter.rooms.get(data.roomID).size)
             if(io.of("/").adapter.rooms.get(data.roomID).size < 2){
                 socket.join(data.roomID)
+                roomUsers[`${data.roomID}`].push({name : data.name, type : "join", score : 0})
+                console.log(roomUsers[`${data.roomID}`])
+                io.to(data.roomID).emit("users-data",roomUsers[`${data.roomID}`])
                 // to set the name and roomID inside join page
                 socket.emit("join",{ok: true, ...data})
                 // initiate the joined user data
@@ -58,6 +75,12 @@ io.on("connection",socket=>{
     // playing events
     socket.on("play",data=>{
         socket.to(data.roomID).emit("played",data)
+    })
+    socket.on("win",data=>{
+        const name = data.name
+        const roomID = data.roomID
+        updateScore(name,roomID)
+        io.to(roomID).emit("win",roomUsers[roomID])
     })
     socket.on("test",data=>{
         // this is just for testing purposes

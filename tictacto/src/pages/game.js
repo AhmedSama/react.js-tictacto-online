@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { context } from '../App.js'
 import Cell from '../components/cell.js'
+import GameDetails from '../components/gameDetails.js'
 import Invite from '../components/invite.js'
 import Popup from '../components/popup.js'
 
-export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,setOtherPlayerName}) {
+export default function Game({name,roomID,myTurn,setMyTurn,xo,gameData,
+  setGameData,setMyData,myData,setOtherPlayerData,otherPlayerData}) {
   const socket = useContext(context)
   const navigate = useNavigate()
   const [popupMsg, setPopupMsg] = useState("the winner is ")
@@ -17,7 +19,7 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
   
   useEffect(() => {
     socket.on("played",data=>{
-      otherPlayerPlay(Number(data.index),data.xo)
+      otherPlayerPlay(Number(data.index),data.xo,data.name)
       
     })
 
@@ -62,7 +64,7 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
     return counter === grid.length
   }
 
-  function otherPlayerPlay(index,x_or_o){
+  function otherPlayerPlay(index,x_or_o,name_){
     const newGrid = grid
     newGrid[index] = x_or_o
     setGrid(newGrid)
@@ -70,6 +72,11 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
     if(checkWin()){
       setPopupMsg("The winner is ")
       setWinner(x_or_o)
+      // const data = {
+      //   name : name_,
+      //   roomID : roomID
+      // }
+      // socket.emit("win",data)
       setShowPopup(true)
       setEndGame(true)
     }
@@ -94,6 +101,11 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
     if(checkWin()){
       setPopupMsg("The winner is ")
       setWinner(xo)
+      const data = {
+        name : name,
+        roomID : roomID
+      }
+      socket.emit("win",data)
       setShowPopup(true)
       setEndGame(true)
     }
@@ -104,7 +116,7 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
       setEndGame(true)
     }
     // send to other user before changing the xo
-    socket.emit("play",{roomID:roomID,index:index,xo:xo})
+    socket.emit("play",{roomID:roomID,index:index,xo:xo,name:name})
     setMyTurn(false)
   }
 
@@ -114,12 +126,15 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
         <Invite setShowInvite={setShowInvite} roomID={roomID} />
       }
       {
-        otherPlayerName ? <h2 className='title'>{otherPlayerName}</h2> : 
-          <button onClick={()=>{
-            setShowInvite(true)
-            }} className='btn mb-10'>
-            Invite
-          </button>
+        gameData ?
+        <GameDetails gameData={gameData} />
+        :
+        <button onClick={()=>{
+          setShowInvite(true)
+          }} className='btn mb-10'>
+          Invite
+        </button>
+        
       }
       
       <div className='grid'>
@@ -131,7 +146,6 @@ export default function Game({name,roomID,myTurn,setMyTurn,xo,otherPlayerName,se
       {showPopup &&
         <Popup setShowPopup={()=>setShowPopup(!showPopup)} msg={popupMsg} winner={winner.toUpperCase()} />
       }
-      
     </>
     
   )

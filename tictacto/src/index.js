@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import "./main.css"
 import App from './App';
-import Container from './components/container';
 import ToggleBtn from './components/toggleBtn';
 
 
@@ -36,9 +35,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     <Main/>
-    <Container>
-        <App />
-    </Container>
+    <App />
+    
   </>
     
 );
